@@ -2,46 +2,7 @@ import React, { useState } from 'react';
 
 const ProductVariant = () => {
   // State for all form fields
-  const [formData, setFormData] = useState({
-    productName: '',
-    sku: '',
-    price: '0.00',
-    stockQuantity: '0',
-    category: '',
-    productImage: null,
-    description: ''
-  });
-
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  // Handle file changes
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, productImage: e.target.files[0] });
-  };
-
-  // Clear form
-  const handleClear = () => {
-    setFormData({
-      productName: '',
-      sku: '',
-      price: '0.00',
-      stockQuantity: '0',
-      category: '',
-      productImage: null,
-      description: ''
-    });
-  };
-
-  // Placeholder submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form Submitted:', formData);
-    alert('Product Added!');
-  };
+  
 
   return (
     <div className="ml-64 pt-16 p-8 bg-gray-50 min-h-screen">
@@ -58,7 +19,7 @@ const ProductVariant = () => {
 
       {/* Form Container */}
       <div className="border border-gray-300 rounded-lg p-6 bg-white">
-        <form onSubmit={handleSubmit}>
+        <form >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Product Name */}
@@ -66,9 +27,8 @@ const ProductVariant = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Variant Name</label>
               <input
                 type="text"
-                name="productName"
-                value={formData.productName}
-                onChange={handleChange}
+                name="variant_name"
+             
                 placeholder="Enter variant name"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-500"
               />
@@ -78,9 +38,8 @@ const ProductVariant = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Variant Type</label>
               <input
                 type="text"
-                name="productName"
-                value={formData.productName}
-                onChange={handleChange}
+                name="variant_type"
+                
                 placeholder="Enter variant type"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-500"
               />
@@ -91,9 +50,8 @@ const ProductVariant = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">Variant Value</label>
               <input
                 type="text"
-                name="sku"
-                value={formData.sku}
-                onChange={handleChange}
+                name="variant_value"
+                
                 placeholder="Enter variant value"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-500"
               />
@@ -105,8 +63,7 @@ const ProductVariant = () => {
               <input
                 type="number"
                 name="price"
-                value={formData.price}
-                onChange={handleChange}
+                
                 step="0.01"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-500"
               />

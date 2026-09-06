@@ -79,13 +79,14 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "product_update",
+        path: "/product_update",
         element: (
           <PrivateRoute>
             <ProductUpdate />
           </PrivateRoute>
         ),
       },
+     
     ],
   },
 ]);

@@ -58,3 +58,7 @@ export const deleteCategory=(id)=>{
 export const postCategory=(post)=>{
   return api.post("/categories/create_category",post);
 }
+
+export const updateCategory=(id,post)=>{
+  return api.put(`/categories/update_category/${id}`,post)
+}
