@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { createProduct, updateProduct } from "../../api/PostApi";
+import { createProduct, getCategories, getProductVariants, updateProduct } from "../../api/PostApi";
 
 const ProductForm = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
+  const[categories,setCategories]=useState([]);
+
+
   const [addData, setAddData] = useState({
     name: "",
     slug: "",
@@ -11,7 +14,29 @@ const ProductForm = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
     description: ""
   });
 
+
   let isEmpty = !updateDataApi || Object.keys(updateDataApi).length === 0;
+
+
+  useEffect(()=>{
+     const getDropdownData = async () => {
+      try {
+        const categoryRes = await getCategories();
+        
+
+        setCategories(categoryRes.data.data);
+    
+
+      } catch (error) {
+        console.log(
+          "Dropdown error:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    getDropdownData();
+  },[]);
 
   useEffect(() => {
     updateDataApi &&
@@ -24,9 +49,9 @@ const ProductForm = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
         description: updateDataApi.description || "",
       });
   }, [updateDataApi]);
+  
   const handleInputChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const { name, value } = e.target;
 
     setAddData((prev) => {
       return {
@@ -59,14 +84,32 @@ const ProductForm = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
     }
   };
 
-  const updatePostData = async () => {
-    try {
-      const res = await updateProduct(updateDataApi.id, addData);
-      console.log(res);
+    const updatePostData= async()=>{
+      try {
+        const res= await updateProduct(updateDataApi.id,addData);
+        console.log(res);
+        
+        if(res.status === 200){
+          setData((prev)=>{
+            return prev.map((curElem)=>{
+              return curElem.id === res.data.id ? res.data : curElem;
+            })
+          })
+          setAddData({
+            name: "",
+            slug: "",
+            category_id:"",
+            price:"",
+            stock_level:"",
+            description: "",
+          });
+          setUpdateDataApi({});
+      }
     } catch (error) {
       console.log(error);
     }
-  };
+  }
+  
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -141,19 +184,36 @@ const ProductForm = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
             />
           </div>
 
-          {/* Category */}
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Category
-            </label>
-            <input
-              type="number"
-              name="category_id"
-              value={addData.category_id}
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-500 bg-white"
-            />
-          </div>
+          {/* CATEGORY DROPDOWN */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Category
+          </label>
+
+          <select
+            name="category_id"
+            value={addData.category_id}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white"
+          >
+
+            <option value="">
+              Select Category
+            </option>
+
+            {categories.map((category) => (
+              <option
+                key={category.id}
+                value={category.id}
+              >
+                {category.id}, {category.name}
+              </option>
+            ))}
+
+          </select>
+        </div>
+
+   
 
           {/* Description */}
           <div className="md:col-span-2">

@@ -1,134 +1,253 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
+import ImageUploderForm from './ImageUploderForm';
+
+import {deleteProductImage, getAllImages} from '../../api/PostApi';
+
 
 const ProductGallery = () => {
-  // State for all form fields
-  const [formData, setFormData] = useState({
-    productName: '',
-    sku: '',
-    price: '0.00',
-    stockQuantity: '0',
-    category: '',
-    productImage: null,
-    description: ''
-  });
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const [data, setData] = useState([]);
+
+
+  // Get all gallery data
+  const getPostData = async () => {
+
+    try {
+      const res = await getAllImages();
+      console.log(res.data);
+
+      setData(res.data);
+
+    } catch (error) {
+      console.log(error);
+    }
+
   };
 
-  // Handle file changes
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, productImage: e.target.files[0] });
+
+  useEffect(() => {
+    getPostData();
+  }, []);
+
+
+  // Delete individual image
+  const handleDelete = async (imageId) => {
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this image?"
+    );
+    if (!confirmDelete) {
+      return;
+    }
+    try {
+      await deleteProductImage(imageId);
+      // Refresh gallery
+      getPostData();
+    } catch (error) {
+      console.log(error);
+      alert(
+        error.response?.data?.detail ||
+        "Failed to delete image"
+      );
+
+    }
+
   };
 
-  // Clear form
-  const handleClear = () => {
-    setFormData({
-      productName: '',
-      sku: '',
-      price: '0.00',
-      stockQuantity: '0',
-      category: '',
-      productImage: null,
-      description: ''
-    });
-  };
-
-  // Placeholder submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form Submitted:', formData);
-    alert('Product Added!');
-  };
 
   return (
+
     <div className="ml-64 pt-16 p-8 bg-gray-50 min-h-screen">
+
+
       {/* Header */}
+
       <div className="flex justify-between items-center mb-6">
+
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Add Product Image</h1>
-          <p className="text-gray-500 mt-1">Manage your Product Image</p>
+
+          <h1 className="text-3xl font-bold text-gray-900">
+            Add Product Image
+          </h1>
+
+          <p className="text-gray-500 mt-1">
+            Manage your Product Image
+          </p>
+
         </div>
-        <button className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 rounded-md transition">
+
+
+        <button
+          className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 rounded-md transition"
+        >
           Go to Inventory List
         </button>
+
       </div>
 
-      {/* Form Container */}
+
+
+      {/* Upload Form */}
+
       <div className="border border-gray-300 rounded-lg p-6 bg-white">
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            {/* Product Name */}
-            
 
-            {/* SKU */}
-           
+        <ImageUploderForm  refreshImages={getPostData}/>
 
-            {/* Price */}
-            
-           
-
-            {/* Stock Quantity */}
-            
-
-            {/* Category */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Product</label>
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-orange-500 bg-white"
-              >
-                <option value="">Select Product</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Food">Food</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            {/* Product Image */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
-              <input
-                type="file"
-                onChange={handleFileChange}
-                className="block w-full text-sm text-gray-500
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-md file:border-0
-                  file:bg-gray-100 file:text-gray-700
-                  hover:file:bg-gray-200"
-              />
-            </div>
-
-            {/* Description */}
-            
-          </div>
-
-          {/* Footer Buttons */}
-          <div className="flex gap-4 mt-8">
-            <button
-              type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-2 rounded-md transition"
-            >
-              Add Product
-            </button>
-            <button
-              type="button"
-              onClick={handleClear}
-              className="bg-gray-600 hover:bg-gray-700 text-white font-medium px-6 py-2 rounded-md transition"
-            >
-              Clear
-            </button>
-          </div>
-        </form>
       </div>
+
+
+
+      {/* Gallery Table */}
+
+      <div className="bg-white border mt-20 border-gray-200 rounded-lg overflow-hidden">
+
+        <div className="overflow-x-auto">
+
+          <table className="min-w-full divide-y divide-gray-200">
+
+
+            {/* Table Header */}
+
+            <thead className="bg-gray-50">
+
+              <tr>
+
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Product ID
+                </th>
+
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Product
+                </th>
+
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Images
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+
+            {/* Table Body */}
+
+            <tbody className="bg-white divide-y divide-gray-100">
+
+
+              {data.map((product) => (
+
+                <tr
+                  key={product.product_id}
+                  className="hover:bg-gray-50"
+                >
+
+
+                  {/* Product ID */}
+
+                  <td className="px-6 py-4 whitespace-nowrap">
+
+                    <div className="w-10 h-10 bg-gray-200 rounded-md flex items-center justify-center text-xl">
+
+                      {product.product_id}
+
+                    </div>
+
+                  </td>
+
+
+
+                  {/* Product Name */}
+
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
+
+                    {product.product_name}
+
+                  </td>
+
+
+
+                  {/* Images */}
+
+                  <td className="px-6 py-4">
+
+                    <div className="flex flex-wrap gap-4">
+
+
+                      {product.images.map((image) => (
+
+                        <div
+                          key={image.id}
+                          className="relative border border-gray-200 rounded-lg p-2 flex items-center gap-2"
+                        >
+
+
+                          {/* Image */}
+
+                          <img
+                            src={`http://127.0.0.1:8000/${image.image}`}
+                            alt={product.product_name}
+                            className="w-24 h-24 object-cover rounded-md"
+                          />
+
+
+
+                          {/* Delete */}
+
+                          <button
+                            onClick={() => handleDelete(image.id)}
+                            className="text-red-400 hover:text-red-600"
+                            title="Delete image"
+                          >
+
+                            <svg
+                              className="w-5 h-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+
+                            </svg>
+
+                          </button>
+
+                        </div>
+
+                      ))}
+
+
+                    </div>
+
+                  </td>
+
+
+                </tr>
+
+              ))}
+
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
     </div>
+
   );
+
 };
 
+
 export default ProductGallery;
+

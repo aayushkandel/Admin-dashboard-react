@@ -15,6 +15,7 @@ import Login from "./pages/Admin/login.jsx";
 import Register from "./pages/Admin/register.jsx";
 import PrivateRoute from "./components/middleware/PrivateRoute.jsx";
 import ProductProvider from "./pages/inventory/ProductProvider.jsx";
+import ProductRate from "./pages/rate&stock/ProductRate.jsx";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ProductGallery />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/product_rates",
+        element: (
+          <PrivateRoute>
+            <ProductRate/>
           </PrivateRoute>
         ),
       },

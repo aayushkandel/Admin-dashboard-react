@@ -100,6 +100,7 @@ useEffect(() => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
@@ -114,11 +115,11 @@ useEffect(() => {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">{name}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{category}</td>
                   <td className="px-6 py-4 text-sm text-gray-500">{slug}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500">{category}</td>
                   <td className="px-6 py-4 text-sm text-gray-900">{price}</td>
-                  
                   <td className="px-6 py-4 text-sm text-gray-900">{stock_level}</td>
+                  
                   <td className="px-6 py-4 text-sm">
                     <div className="flex gap-3">
                       <Link to="/product_update"  >

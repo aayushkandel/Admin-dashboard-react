@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import { deleteCategory, getCategory } from '../../api/PostApi';
+import { deleteCategory, getCategories } from '../../api/PostApi';
 import CategoryForm from './CategoryForm';
 
 const Category = () => {
@@ -10,10 +10,12 @@ const [data,setData]=useState([]);
 const [updateDataApi, setUpdateDataApi] = useState({});
 
 const getCategoryData=async()=>{
-  const response=await getCategory();
+  const response=await getCategories();
   setData(response.data.data)
   console.log(response);
 }
+
+let isEmpty =  Object.keys(updateDataApi).length === 0;
 
  useEffect(()=>{
   getCategoryData();
@@ -43,7 +45,7 @@ const getCategoryData=async()=>{
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Add Category</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{isEmpty ? "Add Category" : "Edit Category"}</h1>
           <p className="text-gray-500 mt-1">Manage your Category</p>
         </div>
         <button className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 rounded-md transition">

@@ -56,16 +56,16 @@ const Sidebar = () => {
           <span>Add Product Variant</span>
         </Link>
 
+        <Link to="/product_rates" className="flex items-center gap-3 px-6 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900">
+          <span className="text-blue-500">➕</span>
+          <span> Rate & Stock</span>
+        </Link>
+        
         <Link to="/product_gallery" className="flex items-center gap-3 px-6 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900">
-       
           <span className="text-purple-500">🎴</span>
           <span>Product Gallery</span>
         </Link>
         
-        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900">
-          <span className="text-blue-500">📊</span>
-          <span>Reports</span>
-        </a>
 
         
 
