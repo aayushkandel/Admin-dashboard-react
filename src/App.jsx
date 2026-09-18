@@ -3,7 +3,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Sidebar from "./components/sidebar";
 
-import "./app.css";
+import "./App.css";
 import { Outlet } from "react-router";
 import ProductProvider from "./pages/inventory/ProductProvider";
 import { LogIn } from "lucide-react";
