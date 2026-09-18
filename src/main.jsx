@@ -16,93 +16,101 @@ import Register from "./pages/Admin/Register.jsx";
 import PrivateRoute from "./components/middleware/PrivateRoute.jsx";
 import ProductProvider from "./pages/inventory/ProductProvider.jsx";
 import ProductRate from "./pages/rate&stock/ProductRate.jsx";
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login />,
-  },
 
-  {
-    path: "/register",
-    element: <Register />,
-  },
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Login />,
+    },
 
+    {
+      path: "/register",
+      element: <Register />,
+    },
+
+    {
+      element: <App />,
+      children: [
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+        },
+
+        {
+          path: "/category",
+          element: (
+            <PrivateRoute>
+              <Category />
+            </PrivateRoute>
+          ),
+        },
+
+        {
+          path: "/product",
+          element: (
+            <PrivateRoute>
+              <Product />
+            </PrivateRoute>
+          ),
+        },
+
+        {
+          path: "/product_variant",
+          element: (
+            <PrivateRoute>
+              <ProductVariant />
+            </PrivateRoute>
+          ),
+        },
+
+        {
+          path: "/inventory",
+          element: (
+            <PrivateRoute>
+              <Inventory />
+            </PrivateRoute>
+          ),
+        },
+
+        {
+          path: "/product_gallery",
+          element: (
+            <PrivateRoute>
+              <ProductGallery />
+            </PrivateRoute>
+          ),
+        },
+
+        {
+          path: "/product_rates",
+          element: (
+            <PrivateRoute>
+              <ProductRate />
+            </PrivateRoute>
+          ),
+        },
+
+        {
+          path: "/product_update",
+          element: (
+            <PrivateRoute>
+              <ProductUpdate />
+            </PrivateRoute>
+          ),
+        },
+      ],
+    },
+  ],
   {
-    element: <App />,
-    children: [
-      {
-        path: "/dashboard",
-        element: (
-          
-            <Dashboard />
-          
-        ),
-      },
-      {
-        path: "/category",
-        element: (
-          <PrivateRoute>
-            <Category />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/product",
-        element: (
-          <PrivateRoute>
-            <Product />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/product_variant",
-        element: (
-          <PrivateRoute>
-            <ProductVariant />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/inventory",
-        element: (
-          <PrivateRoute>
-            <Inventory />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/product_gallery",
-        element: (
-          <PrivateRoute>
-            <ProductGallery />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/product_rates",
-        element: (
-          <PrivateRoute>
-            <ProductRate/>
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/product_update",
-        element: (
-          <PrivateRoute>
-            <ProductUpdate />
-          </PrivateRoute>
-        ),
-      },
-     
-    ],
-  },
-]);
+    basename: "/admin",
+  }
+);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ProductProvider>
       <RouterProvider router={router} />
     </ProductProvider>
-  </StrictMode>,
+  </StrictMode>
 );
