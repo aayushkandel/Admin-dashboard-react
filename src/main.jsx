@@ -11,12 +11,11 @@ import { createBrowserRouter } from "react-router";
 import Inventory from "./pages/inventory/index.jsx";
 import ProductGallery from "./pages/product_gallery/index.jsx";
 import ProductUpdate from "./pages/product/ProductUpdate.jsx";
-import Login from "./pages/Admin/login.jsx";
-import Register from "./pages/Admin/register.jsx";
+import Login from "./pages/Admin/Login.jsx";
+import Register from "./pages/Admin/Register.jsx";
 import PrivateRoute from "./components/middleware/PrivateRoute.jsx";
 import ProductProvider from "./pages/inventory/ProductProvider.jsx";
 import ProductRate from "./pages/rate&stock/ProductRate.jsx";
-
 const router = createBrowserRouter([
   {
     path: "/",
